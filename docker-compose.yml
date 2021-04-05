@@ -11,3 +11,8 @@ services:
         image: php:fpm
         volumes:
             - ./app:/app
+    composer:
+        image: composer:latest
+        command: ["composer", "install"]
+        volumes:
+            - ./app:/app
