@@ -14,11 +14,56 @@
 */
 
 $router->get('/', function () use ($router) {
-    return view('recipes');
+    $recipes = DB::collection('recipes')->get();
+
+    return view('home', ['recipes' => $recipes]);
 });
 
-$router->get('/test', function () use ($router) {
-    $books = DB::collection('recipes')->get();
+$router->get('/edit/untitled', function () use ($router) {
+    return view('edit', ['title' => 'untitled', 'content' => '']);
+});
 
-    return $books;
+$router->get('/edit/{recipe}', function ($recipe) use ($router) {
+    $recipe = DB::collection('recipes')
+        ->where(['name' => $recipe])
+        ->get()[0];
+
+    return view('edit', $recipe);
+});
+
+$router->get('/recipe/{recipe}', function ($recipe) use ($router) {
+    $recipe = DB::collection('recipes')
+        ->where(['name' => $recipe])
+        ->get()[0];
+    $parsedown = new Parsedown();
+    $recipe['content'] = $parsedown->text($recipe['content']);
+
+    return view('view', $recipe);
+});
+
+$router->post('/edit/{recipe}', function (Illuminate\Http\Request $request, $recipe) use ($router) {
+    $content = $request->input('content');
+    $title = $request->input('title');
+    $name = strtolower($title);
+
+    if (strtolower($recipe) == 'untitled')
+    {
+        DB::collection('recipes')
+            ->insert([
+                'name' => $name,
+                'title' => $title,
+                'content' => $content
+            ]);
+    }
+    else {
+        DB::collection('recipes')
+            ->where(['name' => strtolower($recipe)])
+            ->update([
+                'name' => $name,
+                'title' => $title,
+                'content' => $content
+            ]);
+    }
+
+    return redirect('/recipe/'.$name);
 });
