@@ -45,6 +45,9 @@ $router->post('/edit/{recipe}', function (Illuminate\Http\Request $request, $rec
     $content = $request->input('content');
     $title = $request->input('title');
     $name = strtolower($title);
+    $name = str_replace([" ", "_"], "-", $name);
+    $name = str_replace(["æ", "ø", "å"], ["a", "o", "a"], $name);
+    $name = preg_replace('/[^0-9a-z\-_]/', '', $name);
 
     if (strtolower($recipe) == 'untitled')
     {
