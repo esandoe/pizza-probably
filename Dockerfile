@@ -1,5 +1,7 @@
 FROM php:8.0-fpm
 
+WORKDIR /var/www
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -26,7 +28,7 @@ RUN groupadd --gid 1000 pizzaprobably
 RUN useradd --create-home --uid 1000 --shell /bin/bash --gid pizzaprobably pizzaprobably
 
 # Copy existing application directory permissions
-COPY --chown=pizzaprobably:pizzaprobably ./app /app
+COPY --chown=pizzaprobably:pizzaprobably ./lumen .
 
 # Change current user to pizzaprobably
 USER pizzaprobably
