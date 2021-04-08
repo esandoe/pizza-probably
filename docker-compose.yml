@@ -1,18 +1,62 @@
 version: '3'
 services:
-    web:
-        image: nginx:latest
-        ports:
-            - "8888:80"
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-            - ./app:/app
-    php:
-        image: php:fpm
-        volumes:
-            - ./app:/app
-    composer:
-        image: composer:latest
-        command: ["composer", "install"]
-        volumes:
-            - ./app:/app
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pizzaprobably
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./app:/app
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./app:/app
+    networks:
+      - app-network
+  
+  #MongoDB Service
+  mongo:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    tty: true
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

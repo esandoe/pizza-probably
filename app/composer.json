@@ -1,5 +1,9 @@
 {
     "require": {
-        "erusev/parsedown": "^1.7"
+        "erusev/parsedown": "^1.7",
+        "mongodb/mongodb": "^1.8",
+        "ext-mongodb": "*",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.3"
     }
 }
