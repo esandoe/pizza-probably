@@ -35,7 +35,10 @@ $router->get('/recipe/{recipe}', function ($recipe) use ($router) {
     $recipe = DB::collection('recipes')
         ->where(['name' => $recipe])
         ->get()[0];
-    $parsedown = new Parsedown();
+
+    $parsedown = (new Parsedown())
+        ->setSafeMode(true);
+
     $recipe['content'] = $parsedown->text($recipe['content']);
 
     return view('view', $recipe);
