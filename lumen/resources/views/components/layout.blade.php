@@ -21,6 +21,11 @@
                 border-bottom: 2px solid darkgray;
             }
 
+            header a, header a:link, header a:visited, header a:hover, header a:active {
+                color: inherit;
+                text-decoration: none;
+            }
+
             footer {
                 padding: 1em;
                 border-top: 1px solid darkgray;
@@ -33,7 +38,7 @@
     </head>
     <body>
         <header class="content-wrap centered-content">
-            <h1>🍕 Erik's oppskriftsbok</h1>
+            <h1><a href="/">🍕 Erik's oppskriftsbok</a></h1>
         </header>
 
         {{ $slot }}
