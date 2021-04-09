@@ -1,6 +1,5 @@
 <x-layout>
-    <br>
-    <section class="content-wrap">
+    <section class="content-wrap content">
         <a href="/edit/untitled">Lag ny oppskrift!</a>
     </section>
 

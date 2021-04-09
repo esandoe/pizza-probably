@@ -3,8 +3,7 @@
         - {{ $title }}
     </x-slot>
 
-    <br>
-    <section class="content-wrap">
+    <section class="content-wrap content">
         <a href="/edit/{{ $name }}">Rediger oppskriften</a>
     </section>
 

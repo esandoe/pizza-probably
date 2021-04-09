@@ -11,8 +11,6 @@
                 <textarea id="editor-content" name="content">{{ $content }}</textarea>
             </label>
 
-            <br>
-
             <button type="submit">Lagre</button>
         </form>
     </section>
