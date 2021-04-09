@@ -28,6 +28,10 @@ body {
     padding: .5em;
 }
 
+.content img {
+    max-width: 100%;
+}
+
 header {
     border-bottom: double darkgray;
 }
