@@ -8,10 +8,10 @@
 
             <label>
                 Innhold:
-                <textarea id="editor-content" name="content">{{ $content }}</textarea>
+                <textarea id="editor-content" class="bg-light" name="content">{{ $content }}</textarea>
             </label>
 
-            <button type="submit">Lagre</button>
+            <button type="submit" class="bg-primary text-light">Lagre</button>
         </form>
     </section>
 
@@ -30,7 +30,6 @@
             word-wrap: break-word;
             line-height: 1.25em;
             border-radius: 0;
-            color: #757575 !important;
         }
 
         textarea {
@@ -39,12 +38,10 @@
             height: 500px;
             border: 1px solid darkgray;
             resize: none;
-            background: lightyellow;
             white-space:pre-wrap;
             word-wrap: break-word;
             line-height: 1.25em;
             border-radius: 0;
-            color: #757575 !important;
         }
     </style>
 </x-layout>
