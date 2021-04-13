@@ -22,7 +22,7 @@
         </p>
 
         <div id="drop-area">
-            <form class="my-form">
+            <form>
                 <label id="image-previews-container" for="fileElem">
                     <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
                 </label>
@@ -111,6 +111,10 @@
 
     @push('styles')
         <style>
+            #image-previews-container {
+                min-height: 100px;
+            }
+
             .image-upload-preview {
                 position: relative;
                 width: 100px;
@@ -249,17 +253,27 @@
                 border: 2px dashed var(--bg-dark);
                 box-sizing: border-box;
                 width: 100%;
-                padding: 25px;
                 border-radius: 5px;
                 display: inline-block;
                 font-family: sans-serif;
                 background: var(--bg-light);
-                cursor: pointer;
             }
 
             #drop-area.highlight, #drop-area:hover {
                 border-color: var(--primary);
                 background: var(--text-light);
+            }
+
+            #drop-area form {
+                margin: 0;
+            }
+
+            #drop-area label[for=fileElem] {
+                position: relative;
+                padding: 25px;
+                display: block;
+                overflow: hidden;
+                cursor: pointer;
             }
 
             #fileElem {
