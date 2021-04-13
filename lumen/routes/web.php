@@ -13,63 +13,12 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    $recipes = DB::collection('recipes')->get();
+$router->get('/', 'HomeController@show');
 
-    return view('home', ['recipes' => $recipes]);
-});
+$router->get('/recipe/{id}', 'RecipeController@show');
+$router->get('/edit/{id}', 'RecipeController@edit');
+$router->post('/edit/{id}', 'RecipeController@update');
 
-$router->get('/edit/untitled', function () use ($router) {
-    return view('edit', ['title' => 'untitled', 'content' => '']);
-});
+$router->post('/edit/{id}/images', 'UploadController@uploadImage');
+$router->delete('/edit/{id}/images', 'UploadController@deleteImage');
 
-$router->get('/edit/{recipe}', function ($recipe) use ($router) {
-    $recipe = DB::collection('recipes')
-        ->where(['name' => $recipe])
-        ->get()[0];
-
-    return view('edit', $recipe);
-});
-
-$router->get('/recipe/{recipe}', function ($recipe) use ($router) {
-    $recipe = DB::collection('recipes')
-        ->where(['name' => $recipe])
-        ->get()[0];
-
-    $parsedown = (new Parsedown())
-        ->setSafeMode(true);
-
-    $recipe['content'] = $parsedown->text($recipe['content']);
-
-    return view('view', $recipe);
-});
-
-$router->post('/edit/{recipe}', function (Illuminate\Http\Request $request, $recipe) use ($router) {
-    $content = $request->input('content');
-    $title = $request->input('title');
-    $name = strtolower($title);
-    $name = str_replace([" ", "_"], "-", $name);
-    $name = str_replace(["æ", "ø", "å"], ["a", "o", "a"], $name);
-    $name = preg_replace('/[^0-9a-z\-_]/', '', $name);
-
-    if (strtolower($recipe) == 'untitled')
-    {
-        DB::collection('recipes')
-            ->insert([
-                'name' => $name,
-                'title' => $title,
-                'content' => $content
-            ]);
-    }
-    else {
-        DB::collection('recipes')
-            ->where(['name' => strtolower($recipe)])
-            ->update([
-                'name' => $name,
-                'title' => $title,
-                'content' => $content
-            ]);
-    }
-
-    return redirect('/recipe/'.$name);
-});
