@@ -41,13 +41,8 @@ class UploadController extends Controller
         Recipe::find($id)->push('images', self::$uploadPath.$fileName);
 
         $image = self::$uploadPath.$fileName;
-        $htmlComponent = view('components.image-thumb')
-            ->with('id', $id)
-            ->with('image', $image)
-            ->with('attributes', '')
-            ->render();
 
-        return response()->json(['url' => $image, 'component' => $htmlComponent]);
+        return response()->json(['url' => $image]);
     }
 
     public function deleteImage(Request $request, string $id)
