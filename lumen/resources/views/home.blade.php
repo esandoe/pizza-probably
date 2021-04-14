@@ -8,7 +8,7 @@
             <div class="flex-item">
                 <div class="polaroid">
                     <a href="/recipe/{{ $recipe->name }}">
-                        <img src="{{ $recipe->image ?? '/uploads/img/stock-image.jpg' }}" alt="" style="width:100%">
+                        <img src="{{ $recipe->image ?? '/uploads/img/stock-image.jpg' }}" alt="">
                         <div class="container">
                             <p>{{$recipe['title']}}</p>
                         </div>
@@ -28,6 +28,12 @@
 
         div.polaroid a {
             text-decoration: None;
+        }
+
+        div.polaroid img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
         }
 
         .flex-grid {
