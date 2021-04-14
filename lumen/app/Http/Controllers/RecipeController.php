@@ -38,6 +38,18 @@ class RecipeController extends Controller
     public function edit(string $id)
     {
         $recipe = Recipe::find($id);
+
+        if ($id == 'untitled')
+        {
+            $new = new Recipe;
+            $new->name = uniqid('untitled_');
+            $new->title = $recipe->title;
+            $new->image = $recipe->image;
+            $new->content = $recipe->content;
+            $new->save();
+            return redirect('edit/'.$new->name);
+        }
+
         return view('edit')
             ->with('content', $recipe->content)
             ->with('images', $recipe->images ?? [])
@@ -50,7 +62,13 @@ class RecipeController extends Controller
 
         $errors = RecipeParsing::validate($id, $content);
         if ($errors)
-            return view('edit', ['content' => $content, 'errors' => $errors]);
+        {
+            return view('edit')
+                ->with('content', $content)
+                ->with('errors', $errors)
+                ->with('images', Recipe::find($id)->images ?? [])
+                ->with('id', $id);
+        }
 
         $metadata = RecipeParsing::getMetadata($content);
         $uri = RecipeParsing::createUri($metadata['title']);
